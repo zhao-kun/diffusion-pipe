@@ -443,7 +443,8 @@ if __name__ == '__main__':
     }
 
     epoch = train_dataloader.epoch
-    tb_writer = SummaryWriter(log_dir=run_dir) if is_main_process() else None
+    log_dir = config.get('log_dir', run_dir)
+    tb_writer = SummaryWriter(log_dir=log_dir) if is_main_process() else None
     saver = utils.saver.Saver(args, config, peft_config, run_dir, model, train_dataloader, model_engine, pipeline_model)
 
     if config['eval_before_first_step'] and not resume_from_checkpoint:
